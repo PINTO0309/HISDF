@@ -1620,14 +1620,17 @@ def main():
                 # Face
                 elif classid == 16:
                     if enable_face_mosaic:
-                        w = int(abs(box.x2 - box.x1))
-                        h = int(abs(box.y2 - box.y1))
-                        small_box = cv2.resize(debug_image[box.y1:box.y2, box.x1:box.x2, :], (3,3))
-                        normal_box = cv2.resize(small_box, (w,h))
-                        if normal_box.shape[0] != abs(box.y2 - box.y1) \
-                            or normal_box.shape[1] != abs(box.x2 - box.x1):
-                                normal_box = cv2.resize(small_box, (abs(box.x2 - box.x1), abs(box.y2 - box.y1)))
-                        debug_image[box.y1:box.y2, box.x1:box.x2, :] = normal_box
+                        x1 = max(0, min(debug_image_w, box.x1))
+                        y1 = max(0, min(debug_image_h, box.y1))
+                        x2 = max(0, min(debug_image_w, box.x2))
+                        y2 = max(0, min(debug_image_h, box.y2))
+                        roi_w = x2 - x1
+                        roi_h = y2 - y1
+                        if roi_w > 0 and roi_h > 0:
+                            face_roi = debug_image[y1:y2, x1:x2]
+                            small_box = cv2.resize(face_roi, (3, 3), interpolation=cv2.INTER_AREA)
+                            mosaic = cv2.resize(small_box, (roi_w, roi_h), interpolation=cv2.INTER_NEAREST)
+                            debug_image[y1:y2, x1:x2] = mosaic
                     cv2.rectangle(debug_image, (box.x1, box.y1), (box.x2, box.y2), (255,255,255), white_line_width)
                     cv2.rectangle(debug_image, (box.x1, box.y1), (box.x2, box.y2), color, colored_line_width)
 
