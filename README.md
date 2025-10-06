@@ -1,6 +1,6 @@
 # HISDF
 
-[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/PINTO0309/HISDF) ![GitHub License](https://img.shields.io/github/license/pinto0309/HISDF)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/PINTO0309/HISDF) ![GitHub License](https://img.shields.io/github/license/pinto0309/HISDF) [![DOI](https://zenodo.org/badge/1069603125.svg)](https://doi.org/10.5281/zenodo.17274822)
 
 
 Merging DEIMv2 and DepthAnythingV2, RHIS
