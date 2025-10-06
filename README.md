@@ -9,6 +9,8 @@ HISDF (Human Instance, Skeleton, and Depth Fusion) is a unified model that fuses
 
 https://github.com/user-attachments/assets/2fcad55b-775c-46b7-bcff-1132baa7a89d
 
+https://github.com/user-attachments/assets/17544727-f971-4d76-91d6-096bc428506f
+
 https://github.com/user-attachments/assets/6c86e438-2953-4e69-8b29-e1f77846ad03
 
 https://github.com/user-attachments/assets/15f35c51-9aef-43dc-a128-b34d3610825e
