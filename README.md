@@ -176,3 +176,5 @@ If you find this project useful, please consider citing:
   }
   ```
 - https://github.com/PINTO0309/human-instance-segmentation
+- https://github.com/PINTO0309/DEIMv2
+- https://github.com/PINTO0309/Depth-Anything-V2
