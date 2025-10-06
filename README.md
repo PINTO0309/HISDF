@@ -128,5 +128,6 @@ Persistent track IDs for person boxes are drawn outside the bounding boxes. Colo
 - **Slow FPS**: Disable depth and mask overlays, lower the input resolution, or switch to TensorRT.
 
 ## Licensing
+This project is licensed under the Apache License Version 2.0 License.
 
-Refer to `LICENSE` for the full terms governing the use of the code and bundled models.
+Refer to [LICENSE](./LICENSE) for the full terms governing the use of the code and bundled models.
