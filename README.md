@@ -7,6 +7,9 @@ Merging DEIMv2 and DepthAnythingV2, RHIS
 
 HISDF (Human Instance, Skeleton, and Depth Fusion) is a unified model that fuses human instance segmentation, skeletal structure estimation, and depth prediction to achieve holistic human perception from visual input.
 
+> [!warning]
+> As of October 6, 2025, I have only performed proof of concept using the architecture with the highest accuracy and slowest inference speed. I plan to gradually add lighter models.
+
 https://github.com/user-attachments/assets/2fcad55b-775c-46b7-bcff-1132baa7a89d
 
 https://github.com/user-attachments/assets/17544727-f971-4d76-91d6-096bc428506f
