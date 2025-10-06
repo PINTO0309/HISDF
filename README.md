@@ -128,7 +128,51 @@ Persistent track IDs for person boxes are drawn outside the bounding boxes. Colo
 - **Incorrect colours or masks**: Make sure the instance segmentation overlay is enabled (`i` key) and verify that your model outputs masks.
 - **Slow FPS**: Disable depth and mask overlays, lower the input resolution, or switch to TensorRT.
 
-## Licensing
+## LICENSE
 This project is licensed under the Apache License Version 2.0 License.
 
 Refer to [LICENSE](./LICENSE) for the full terms governing the use of the code and bundled models.
+
+## Citation
+If you find this project useful, please consider citing:
+
+```bibtex
+@software{hisdf,
+  title={HISDF (Human Instance, Skeleton, and Depth Fusion)},
+  author={Katsuya Hyodo},
+  version={1.0.0},
+  year={2025},
+  doi={10.5281/zenodo.17274823},
+  url={https://github.com/PINTO0309/HISDF},
+  note={HISDF: unified human instance, skeleton, and depth fusion model.}
+}
+```
+
+## Acknowledgments
+
+- https://github.com/Intellindust-AI-Lab/DEIMv2
+  ```bibtex
+  @article{huang2025deimv2,
+    title={Real-Time Object Detection Meets DINOv3},
+    author={Huang, Shihua and Hou, Yongjie and Liu, Longfei and Yu, Xuanlong and Shen, Xi},
+    journal={arXiv},
+    year={2025}
+  }
+  ```
+- https://github.com/DepthAnything/Depth-Anything-V2
+  ```bibtex
+  @article{depth_anything_v2,
+    title={Depth Anything V2},
+    author={Yang, Lihe and Kang, Bingyi and Huang, Zilong and Zhao, Zhen and Xu, Xiaogang and Feng, Jiashi and Zhao, Hengshuang},
+    journal={arXiv:2406.09414},
+    year={2024}
+  }
+
+  @inproceedings{depth_anything_v1,
+    title={Depth Anything: Unleashing the Power of Large-Scale Unlabeled Data},
+    author={Yang, Lihe and Kang, Bingyi and Huang, Zilong and Xu, Xiaogang and Feng, Jiashi and Zhao, Hengshuang},
+    booktitle={CVPR},
+    year={2024}
+  }
+  ```
+- https://github.com/PINTO0309/human-instance-segmentation
