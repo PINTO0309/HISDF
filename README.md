@@ -134,8 +134,8 @@ Persistent track IDs for person boxes are drawn outside the bounding boxes. Colo
     |Name|Type|Note|
     |:-|:-|:-|
     |`bbox_classid_xyxy_score`|`float32[num_rois, 6]`|Bounding box of object detection result. `[boxes, [classid, x1, y1, x2, y2, score]]`. Coordinates normalized to 0.0-1.0|
-    |`depth`|`float32[1, 1, H, W]`|A depth map of the same size as the input image|
-    |`binary_masks`|`float32[1, 1, H, W]`|A binary mask of the same size as the input image|
+    |`depth`|`float32[1, 1, H, W]`|A depth map of the same size as the input image.|
+    |`binary_masks`|`float32[1, 1, H, W]`|A binary mask of the same size as the input image.|
     |`instance_masks`|`float32[num_rois, 1, 160, 120]`|The number of instance segmentation masks is the same as the number of bodies (ROIs) in the object detection result. 160x120 size based on RHIS model input resolution 640x640. The ROI needs to be rescaled depending on the resolution of the input image.|
   - Sample
 
