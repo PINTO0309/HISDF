@@ -133,13 +133,41 @@ Persistent track IDs for person boxes are drawn outside the bounding boxes. Colo
   - Outputs
     |Name|Type|Note|
     |:-|:-|:-|
-    |`bbox_classid_xyxy_score`|`float32[num_rois, 6]`|`[boxes, [classid, x1, y1, x2, y2, score]]`. Coordinates normalized to 0.0-1.0|
+    |`bbox_classid_xyxy_score`|`float32[num_rois, 6]`|Bounding box of object detection result. `[boxes, [classid, x1, y1, x2, y2, score]]`. Coordinates normalized to 0.0-1.0|
     |`depth`|`float32[1, 1, H, W]`|A depth map of the same size as the input image|
     |`binary_masks`|`float32[1, 1, H, W]`|A binary mask of the same size as the input image|
     |`instance_masks`|`float32[num_rois, 1, 160, 120]`|The number of instance segmentation masks is the same as the number of bodies (ROIs) in the object detection result. 160x120 size based on RHIS model input resolution 640x640. The ROI needs to be rescaled depending on the resolution of the input image.|
   - Sample
 
     <img width="827" height="525" alt="image" src="https://github.com/user-attachments/assets/855e9269-ee82-4482-a1a0-0295772d025c" />
+
+  - Class IDs
+    ```
+    ┏━━━┳━━━━━━━━━━━━━━━━━━━━━┳━━━┳━━━━━━━━━━━━━━━━━━━━━┓
+    ┃ ID┃Name                 ┃ ID┃Name                 ┃
+    ┡━━━╇━━━━━━━━━━━━━━━━━━━━━╇━━━╇━━━━━━━━━━━━━━━━━━━━━┩
+    │  0│body                 │ 20│ear                  │
+    │  1│adult                │ 21│collarbone           │
+    │  2│child                │ 22│shoulder             │
+    │  3│male                 │ 23│solar_plexus         │
+    │  4│female               │ 24│elbow                │
+    │  5│body_with_wheelchair │ 25│wrist                │
+    │  6│body_with_crutches   │ 26│hand                 │
+    │  7│head                 │ 27│hand_left            │
+    │  8│front                │ 28│hand_right           │
+    │  9│right-front          │ 29│abdomen              │
+    │ 10│right-side           │ 30│hip_joint            │
+    │ 11│right-back           │ 31│knee                 │
+    │ 12│back                 │ 32│ankle                │
+    │ 13│left-back            │ 33│foot                 │
+    │ 14│left-side            │   │                     │
+    │ 15│left-front           │   │                     │
+    │ 16│face                 │   │                     │
+    │ 17│eye                  │   │                     │
+    │ 18│nose                 │   │                     │
+    │ 19│mouth                │   │                     │
+    └───┴─────────────────────┴───┴─────────────────────┘
+    ```
 
 ## Troubleshooting
 
