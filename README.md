@@ -125,6 +125,21 @@ Persistent track IDs for person boxes are drawn outside the bounding boxes. Colo
 - The lightweight `SimpleSortTracker` keeps body detections stable across frames; tune the IoU threshold or `max_age` if you encounter ID churn.
 - Depth overlays rely on OpenCV colormaps and the segmentation mask to blend only foreground pixels.
 - Use `python -m compileall demo_hisdf_onnx_34.py` to perform a quick syntax check after edits.
+- Model Inputs and Outputs
+  - Inputs
+    |Name|Type|Note|
+    |:-|:-|:-|
+    |`input_bgr`|`float32[1, 3, H, W]`|BGR image|
+  - Outputs
+    |Name|Type|Note|
+    |:-|:-|:-|
+    |`bbox_classid_xyxy_score`|`float32[num_rois, 6]`|xyxy is x1y1x2y2 and coordinates normalized to 0.0-1.0|
+    |`depth`|`float32[1, 1, H, W]`|A depth map of the same size as the input image|
+    |`binary_masks`|`float32[1, 1, H, W]`|A binary mask of the same size as the input image|
+    |`instance_masks`|`float32[num_rois, 1, 160, 120]`|The number of instance segmentation masks is the same as the number of bodies (ROIs) in the object detection result. 160x120 size based on RHIS model input resolution 640x640. The ROI needs to be rescaled depending on the resolution of the input image.|
+  - Sample
+
+    <img width="827" height="525" alt="image" src="https://github.com/user-attachments/assets/855e9269-ee82-4482-a1a0-0295772d025c" />
 
 ## Troubleshooting
 
