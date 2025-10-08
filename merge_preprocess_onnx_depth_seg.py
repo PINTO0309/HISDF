@@ -600,11 +600,6 @@ def main(detection_model_path: Path):
         ],
         output_onnx_file_path = full_model_file,
     )
-    # outputs_add(
-    #     input_onnx_file_path=full_model_file,
-    #     output_op_names=["bbox_classid_xyxy_score"],
-    #     output_onnx_file_path=full_model_file,
-    # )
     combine(
         srcop_destop = [
             ['pre_binary_masks', 'input_post_seg', 'depthanything/post/Concat_1_output_0', 'seg/post/Concat_1_output_0']
@@ -615,13 +610,6 @@ def main(detection_model_path: Path):
         ],
         output_onnx_file_path = full_model_file,
     )
-    # rename(
-    #     old_new=["masks", "instance_masks"],
-    #     input_onnx_file_path=full_model_file,
-    #     output_onnx_file_path=full_model_file,
-    #     mode="full",
-    #     search_mode="prefix_match",
-    # )
     io_change(
         input_onnx_file_path=full_model_file,
         output_onnx_file_path=full_model_file,
