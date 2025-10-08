@@ -401,7 +401,7 @@ class HISDF(AbstractModel):
         self,
         *,
         runtime: Optional[str] = 'onnx',
-        model_path: Optional[str] = 'deimv2_depthanythingv2_instanceseg_1x3xHxW.onnx',
+        model_path: Optional[str] = 'deimv2x_depthanythingv2_instanceseg_1x3xHxW.onnx',
         obj_class_score_th: Optional[float] = 0.35,
         attr_class_score_th: Optional[float] = 0.70,
         keypoint_th: Optional[float] = 0.25,
@@ -1072,7 +1072,7 @@ def main():
         '-m',
         '--model',
         type=str,
-        default='deimv2_depthanythingv2_instanceseg_1x3xHxW.onnx',
+        default='deimv2x_depthanythingv2_instanceseg_1x3xHxW.onnx',
         help='ONNX/TFLite file path for HISDF.',
     )
     group_v_or_i = parser.add_mutually_exclusive_group(required=True)
