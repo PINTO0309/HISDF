@@ -1221,6 +1221,13 @@ def main():
             'Enable instance segmentation overlay. (Press I on the keyboard to switch modes)',
     )
     parser.add_argument(
+        '-eti',
+        '--enable_trackid_overlay',
+        action='store_true',
+        help=\
+            'Enable TrackID overlay. (Press T on the keyboard to switch modes)',
+    )
+    parser.add_argument(
         '-ehd',
         '--enable_head_distance_measurement',
         action='store_true',
@@ -1288,6 +1295,7 @@ def main():
     enable_bone_drawing: bool = args.enable_bone_drawing
     enable_depth_map_overlay: bool = args.enable_depth_map_overlay
     enable_instance_segmentation_overlay: bool = args.enable_instance_segmentation_overlay
+    enable_trackid_overlay: bool = args.enable_trackid_overlay
     enable_head_distance_measurement: bool = args.enable_head_distance_measurement
     output_yolo_format_text: bool = args.output_yolo_format_text
     execution_provider: str = args.execution_provider
@@ -1662,7 +1670,7 @@ def main():
                 cv2.rectangle(debug_image, (box.x1, box.y1), (box.x2, box.y2), (255,255,255), white_line_width)
                 cv2.rectangle(debug_image, (box.x1, box.y1), (box.x2, box.y2), color, colored_line_width)
 
-            if classid == 0 and box.track_id > 0:
+            if enable_trackid_overlay and classid == 0 and box.track_id > 0:
                 track_text = f'ID: {box.track_id}'
                 text_x = max(box.x1 - 5, 0)
                 text_y = box.y1 - 10
@@ -1914,6 +1922,8 @@ def main():
         elif key == ord('i'): # 105, I, Instance segmentation overlay mode switch
             enable_instance_segmentation_overlay = not enable_instance_segmentation_overlay
             enable_depth_map_overlay = False
+        elif key == ord('t'): # 116, T, TrackID overlay mode switch
+            enable_trackid_overlay = not enable_trackid_overlay
         elif key == ord('m'): # 109, M, Head distance measurement mode switch
             enable_head_distance_measurement = not enable_head_distance_measurement
 
