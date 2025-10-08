@@ -77,6 +77,7 @@ Pick the variant that best matches your latency/accuracy trade-offs. The demo de
 If you use `uv`, simply run `uv sync` to materialise the locked environment.
 
 ```bash
+git clone https://github.com/PINTO0309/HISDF && cd HISDF
 curl -LsSf https://astral.sh/uv/install.sh | sh
 uv sync
 source .venv/bin/activate
