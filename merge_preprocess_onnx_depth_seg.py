@@ -6,6 +6,7 @@ DETECTION_MODEL_CHOICES = (
     "deimv2_dinov3_x_wholebody34_340query.onnx",
     "deimv2_dinov3_x_wholebody34_680query.onnx",
     "deimv2_dinov3_x_wholebody34_1750query.onnx",
+    "deimv2_dinov3_s_wholebody34_1750query.onnx",
 )
 
 import os
