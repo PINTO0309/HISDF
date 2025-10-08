@@ -1221,11 +1221,18 @@ def main():
             'Enable instance segmentation overlay. (Press I on the keyboard to switch modes)',
     )
     parser.add_argument(
-        '-eti',
-        '--enable_trackid_overlay',
+        '-dtk',
+        '--disable_tracking',
         action='store_true',
         help=\
-            'Enable TrackID overlay. (Press T on the keyboard to switch modes)',
+            'Disable instance tracking. (Press R on the keyboard to switch modes)',
+    )
+    parser.add_argument(
+        '-dti',
+        '--disable_trackid_overlay',
+        action='store_true',
+        help=\
+            'Disable TrackID overlay. (Press T on the keyboard to switch modes)',
     )
     parser.add_argument(
         '-ehd',
@@ -1295,7 +1302,8 @@ def main():
     enable_bone_drawing: bool = args.enable_bone_drawing
     enable_depth_map_overlay: bool = args.enable_depth_map_overlay
     enable_instance_segmentation_overlay: bool = args.enable_instance_segmentation_overlay
-    enable_trackid_overlay: bool = args.enable_trackid_overlay
+    enable_tracking: bool = not args.disable_tracking
+    enable_trackid_overlay: bool = not args.disable_trackid_overlay
     enable_head_distance_measurement: bool = args.enable_head_distance_measurement
     output_yolo_format_text: bool = args.output_yolo_format_text
     execution_provider: str = args.execution_provider
@@ -1392,6 +1400,7 @@ def main():
     colored_line_width = white_line_width - 1
     tracker = SimpleSortTracker()
     track_color_cache: Dict[int, np.ndarray] = {}
+    tracking_enabled_prev = enable_tracking
     while True:
         image: np.ndarray = None
         if file_paths is not None:
@@ -1421,11 +1430,23 @@ def main():
         elapsed_time = time.perf_counter() - start_time
 
         body_boxes = [box for box in boxes if box.classid == 0]
-        tracker.update(body_boxes)
-        active_track_ids = {track['id'] for track in tracker.tracks}
-        stale_ids = [tid for tid in track_color_cache.keys() if tid not in active_track_ids]
-        for tid in stale_ids:
-            track_color_cache.pop(tid, None)
+        current_tracking_enabled = enable_tracking
+        if current_tracking_enabled:
+            if not tracking_enabled_prev:
+                tracker = SimpleSortTracker()
+                track_color_cache.clear()
+            tracker.update(body_boxes)
+            active_track_ids = {track['id'] for track in tracker.tracks}
+            stale_ids = [tid for tid in track_color_cache.keys() if tid not in active_track_ids]
+            for tid in stale_ids:
+                track_color_cache.pop(tid, None)
+        else:
+            if tracking_enabled_prev:
+                tracker = SimpleSortTracker()
+                track_color_cache.clear()
+            for box in boxes:
+                box.track_id = -1
+        tracking_enabled_prev = current_tracking_enabled
 
         # Depth map overlay
         if enable_depth_map_overlay:
@@ -1922,8 +1943,14 @@ def main():
         elif key == ord('i'): # 105, I, Instance segmentation overlay mode switch
             enable_instance_segmentation_overlay = not enable_instance_segmentation_overlay
             enable_depth_map_overlay = False
+        elif key == ord('r'): # 114, R, Tracking mode switch
+            enable_tracking = not enable_tracking
+            if enable_tracking and not enable_trackid_overlay:
+                enable_trackid_overlay = True
         elif key == ord('t'): # 116, T, TrackID overlay mode switch
             enable_trackid_overlay = not enable_trackid_overlay
+            if not enable_tracking:
+                enable_trackid_overlay = False
         elif key == ord('m'): # 109, M, Head distance measurement mode switch
             enable_head_distance_measurement = not enable_head_distance_measurement
 
