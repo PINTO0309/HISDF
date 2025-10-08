@@ -10,13 +10,37 @@ HISDF (Human Instance, Skeleton, and Depth Fusion) is a unified model that fuses
 > [!warning]
 > As of October 6, 2025, I have only performed proof of concept using the architecture with the highest accuracy and slowest inference speed. I plan to gradually add lighter models.
 
-https://github.com/user-attachments/assets/2fcad55b-775c-46b7-bcff-1132baa7a89d
+## Demo - X size Monolithic Model
+- RTX3070 8GB
+- Object Detection (34 classes)
+- Joint Detection
+- Attribute estimation (Generation, Gender, Wheelchair, Crutches)
+- Head Orientation Estimation (8 directions)
+- Absolute distance detection
+- Depth estimation
+- Instance Segmentation
+- Binary Segmentation
 
-https://github.com/user-attachments/assets/17544727-f971-4d76-91d6-096bc428506f
+  https://github.com/user-attachments/assets/2fcad55b-775c-46b7-bcff-1132baa7a89d
+  
+  https://github.com/user-attachments/assets/17544727-f971-4d76-91d6-096bc428506f
+  
+  https://github.com/user-attachments/assets/6c86e438-2953-4e69-8b29-e1f77846ad03
+  
+  https://github.com/user-attachments/assets/15f35c51-9aef-43dc-a128-b34d3610825e
 
-https://github.com/user-attachments/assets/6c86e438-2953-4e69-8b29-e1f77846ad03
+## Demo - S size Monolithic Model
+- RTX3070 8GB
+- Object Detection (34 classes)
+- Joint Detection
+- Attribute estimation (Generation, Gender, Wheelchair, Crutches)
+- Head Orientation Estimation (8 directions)
+- Absolute distance detection
+- Depth estimation
+- Instance Segmentation
+- Binary Segmentation
 
-https://github.com/user-attachments/assets/15f35c51-9aef-43dc-a128-b34d3610825e
+  https://github.com/user-attachments/assets/e636893c-b51a-4616-9bb5-d0a51a02baf6
 
 ## Features
 
