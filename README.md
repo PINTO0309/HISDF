@@ -63,7 +63,7 @@ HISDF (Human Instance, Skeleton, and Depth Fusion) is a unified model that fuses
 
 ## Model Zoo
 
-The repository ships with several ONNX artefacts:
+The repository ships with several ONNX artefacts:　https://github.com/PINTO0309/HISDF/releases
 
 - `deimv2_dinov3_x_wholebody34_*.onnx`: core HISDF detectors with varying query counts.
 - `depth_anything_v2_small_*.onnx`: depth backbones at different input resolutions.
