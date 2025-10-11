@@ -1270,8 +1270,6 @@ def main():
             runtime = 'tensorflow'
         else:
             print(Color.RED('ERROR: ai_edge_litert or tensorflow is not installed.'))
-            print(Color.RED('ERROR: https://github.com/PINTO0309/TensorflowLite-bin'))
-            print(Color.RED('ERROR: https://github.com/tensorflow/tensorflow'))
             sys.exit(0)
     video: str = args.video
     images_dir: str = args.images_dir
