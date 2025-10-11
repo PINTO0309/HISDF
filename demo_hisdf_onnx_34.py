@@ -305,7 +305,6 @@ class AbstractModel(ABC):
             print(f'{Color.GREEN("Enabled ONNX ExecutionProviders:")}')
             pprint(f'{self._providers}')
 
-            self._input_shapes = [[1, 3, 640, 640]]
             self._input_names = [
                 input.name for input in self._interpreter.get_inputs()
             ]
@@ -323,9 +322,9 @@ class AbstractModel(ABC):
             self._h_index = 2
             self._w_index = 3
 
-        elif self._runtime in ['tflite_runtime', 'tensorflow']:
-            if self._runtime == 'tflite_runtime':
-                from tflite_runtime.interpreter import Interpreter # type: ignore
+        elif self._runtime in ['ai_edge_litert', 'tensorflow']:
+            if self._runtime == 'ai_edge_litert':
+                from ai_edge_litert.interpreter import Interpreter # type: ignore
                 self._interpreter = Interpreter(model_path=model_path)
             elif self._runtime == 'tensorflow':
                 import tensorflow as tf # type: ignore
@@ -368,7 +367,7 @@ class AbstractModel(ABC):
                     )
             ]
             return outputs
-        elif self._runtime in ['tflite_runtime', 'tensorflow']:
+        elif self._runtime in ['ai_edge_litert', 'tensorflow']:
             outputs = [
                 output for output in \
                     self._model(
@@ -627,8 +626,8 @@ class HISDF(AbstractModel):
                     classid = int(box[0])
                     x_min = int(max(0, box[1]) * image_width)
                     y_min = int(max(0, box[2]) * image_height)
-                    x_max = int(min(box[3], self._input_shapes[0][self._w_index]) * image_width)
-                    y_max = int(min(box[4], self._input_shapes[0][self._h_index]) * image_height)
+                    x_max = int(min(box[3], 1.0) * image_width)
+                    y_max = int(min(box[4], 1.0) * image_height)
                     cx = (x_min + x_max) // 2
                     cy = (y_min + y_max) // 2
                     cz = 0.0
@@ -1277,12 +1276,12 @@ def main():
             sys.exit(0)
         runtime = 'onnx'
     elif model_ext == 'tflite':
-        if is_package_installed('tflite_runtime'):
-            runtime = 'tflite_runtime'
+        if is_package_installed('ai_edge_litert'):
+            runtime = 'ai_edge_litert'
         elif is_package_installed('tensorflow'):
             runtime = 'tensorflow'
         else:
-            print(Color.RED('ERROR: tflite_runtime or tensorflow is not installed.'))
+            print(Color.RED('ERROR: ai_edge_litert or tensorflow is not installed.'))
             print(Color.RED('ERROR: https://github.com/PINTO0309/TensorflowLite-bin'))
             print(Color.RED('ERROR: https://github.com/tensorflow/tensorflow'))
             sys.exit(0)
