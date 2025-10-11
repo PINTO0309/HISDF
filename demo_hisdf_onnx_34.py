@@ -570,13 +570,6 @@ class HISDF(AbstractModel):
         result_seg: np.ndarray
             denormalized segmentation: uint8[H, W]
         """
-
-        """
-        bbox_classid_xyxy_score: float32[num_rois, 6]
-        depth: float32[1, 1, H, W]
-        binary_masks: float32[1, 1, H, W]
-        instance_masks: float32[num_rois, 1, 160, 120]
-        """
         image_height = image.shape[0]
         image_width = image.shape[1]
 
