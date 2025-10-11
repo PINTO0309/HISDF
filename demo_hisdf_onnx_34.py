@@ -7,13 +7,8 @@ import os
 import sys
 import copy
 import cv2
-try:
-    import onnx
-    import onnxruntime
-    from sne4onnx import extraction
-    from sor4onnx import rename
-except:
-    pass
+import onnx
+import onnxruntime
 import math
 import time
 from pprint import pprint
