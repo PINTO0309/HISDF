@@ -12,7 +12,7 @@ dependencies = [
     "opencv-python==4.12.0.88",
     "pyyaml==6.0.3",
     "sio4onnx==1.0.3",
-    "snc4onnx==1.0.13",
+    "snc4onnx==1.0.14",
     "snd4onnx==1.1.7",
     "sne4onnx==1.0.14",
     "soa4onnx==1.0.5",

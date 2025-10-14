@@ -1,13 +1,49 @@
 import argparse
 from pathlib import Path
 from typing import List
+import re
+import sys
+import glob
 
 DETECTION_MODEL_CHOICES = (
-    "deimv2_dinov3_x_wholebody34_340query.onnx",
-    "deimv2_dinov3_x_wholebody34_680query.onnx",
-    "deimv2_dinov3_x_wholebody34_1750query.onnx",
-    "deimv2_dinov3_s_wholebody34_1750query.onnx",
+    "deimv2_hgnetv2_pico_wholebody34_340query_640x640.onnx",
+    "deimv2_hgnetv2_n_wholebody34_680query_640x640.onnx",
+    "deimv2_dinov3_s_wholebody34_1750query_640x640.onnx",
+    "deimv2_dinov3_x_wholebody34_340query_640x640.onnx",
+    "deimv2_dinov3_x_wholebody34_680query_640x640.onnx",
+    "deimv2_dinov3_x_wholebody34_1750query_640x640.onnx",
 )
+pattern = re.compile(r"_(pico|n|s|x)_.*?_(\d+)query")
+detection_params = {}
+for filename in DETECTION_MODEL_CHOICES:
+    match = pattern.search(filename)
+    if match:
+        variant, query = match.groups()
+        detection_params[filename] = {"variant": variant, "query": int(query)}
+
+INSTANCESEG_MODEL_CHOICES= (
+    "best_model_b0_640x640_32x24_0.8416_dil1.onnx",
+    "best_model_b0_640x640_64x48_0.8545_dil1.onnx",
+    "best_model_b0_640x640_80x60_0.8548_dil1.onnx",
+    "best_model_b0_640x640_96x72_0.8511_dil1.onnx",
+    "best_model_b0_640x640_112x84_0.8495_dil1.onnx",
+    "best_model_b0_640x640_128x96_0.8503_dil1.onnx",
+    "best_model_b1_640x640_32x24_0.8445_dil1.onnx",
+    "best_model_b1_640x640_64x48_0.8558_dil1.onnx",
+    "best_model_b1_640x640_80x60_0.8551_dil1.onnx",
+    "best_model_b1_640x640_96x72_0.8525_dil1.onnx",
+    "best_model_b1_640x640_112x84_0.8526_dil1.onnx",
+    "best_model_b1_640x640_128x96_0.8497_dil1.onnx",
+    "best_model_b7_640x640_64x48_0.8547_dil1.onnx",
+    "best_model_b7_640x640_80x60_0.8535_dil1.onnx",
+)
+pattern = re.compile(r"_b(\d)_\d+x\d+_(\d+)x(\d+)_")
+instance_seg_params = {}
+for filename in INSTANCESEG_MODEL_CHOICES:
+    match = pattern.search(filename)
+    if match:
+        variant, hh, ww = match.groups()
+        instance_seg_params[filename] = {"variant": f"b{variant}", "hh": int(hh), "ww": int(ww)}
 
 import os
 import numpy as np
@@ -203,10 +239,10 @@ def reorder_onnx_outputs(model_path: Path, desired_order: List[str]) -> None:
     onnx.save(model, str(model_path))
 
 
-def main(detection_model_path: Path):
+def main(detection_model_path: Path, instanceseg_model_path: Path):
     detection_model_path = Path(detection_model_path)
-    if not detection_model_path.exists():
-        raise FileNotFoundError(f"Detection model not found: {detection_model_path}")
+    instanceseg_model_path = Path(instanceseg_model_path)
+    shutil.copy2(f'onnx/{str(instanceseg_model_path)}', '.')
 
     # dpa_H = 490 # 480->490, Multiples of 14
     # dpa_W = 644 # 640->644, Multiples of 14
@@ -218,7 +254,7 @@ def main(detection_model_path: Path):
     dpa_H = 644 # 480->490, Multiples of 14
     dpa_W = 644 # 640->644, Multiples of 14
     onnx_file = f"depth_anything_v2_small_{dpa_H}x{dpa_W}.onnx"
-    shutil.copy('depth_anything_v2_small.onnx', onnx_file)
+    shutil.copy('onnx/depth_anything_v2_small.onnx', onnx_file)
     metric_inout = ""
     extraction_op_name = "depthanything/Relu_output_0"
     output_onnx_file = onnx_file
@@ -433,22 +469,10 @@ def main(detection_model_path: Path):
 
     ############### Rename DEIMv2 norm
     object_detection_file = str(detection_model_path)
+    instanceseg_model_file = str(instanceseg_model_path)
     object_detection_file_wo_ext = os.path.splitext(os.path.basename(object_detection_file))[0]
     object_detection_file_w_prep = f'{object_detection_file_wo_ext}_with_prep.onnx'
-    rename(
-        old_new=["output_prep", "prep_div"],
-        input_onnx_file_path=detection_model_path,
-        output_onnx_file_path=object_detection_file_w_prep,
-        mode="full",
-        search_mode="prefix_match",
-    )
-    rename(
-        old_new=["prep/Mul_output_0", "output_prep"],
-        input_onnx_file_path=object_detection_file_w_prep,
-        output_onnx_file_path=object_detection_file_w_prep,
-        mode="full",
-        search_mode="prefix_match",
-    )
+    shutil.copy(object_detection_file, object_detection_file_w_prep)
 
     ############### DEIMv2 + DepthAnything
     combine(
@@ -511,7 +535,7 @@ def main(detection_model_path: Path):
     )
 
     ############### DEIMv2 + InstanceSeg
-    insseg_onnx_file = "best_model_b1_640x640_80x60_0.8551_dil1.onnx"
+    insseg_onnx_file = str(instanceseg_model_path) #"best_model_b1_640x640_80x60_0.8551_dil1.onnx"
     rename(
         old_new=["model.", "insseg/model."],
         input_onnx_file_path=insseg_onnx_file,
@@ -590,7 +614,12 @@ def main(detection_model_path: Path):
         search_mode="prefix_match",
     )
 
-    full_model_file = "deimv2_depthanythingv2_instanceseg_1x3xHxW.onnx"
+    detvariant, detquery = detection_params[object_detection_file].values()
+    insvariant, inshh, insww = instance_seg_params[instanceseg_model_file].values()
+    inshh_out = inshh * 2
+    insww_out = insww * 2
+
+    full_model_file = f"deimv2{detvariant}_depthanythingv2_instanceseg_1x3xHxW_{detquery}_{insvariant}_{inshh}x{insww}.onnx"
     combine(
         srcop_destop = [
             ['output_prep', 'images', 'bbox_processor_output_bboxes', 'rois']
@@ -628,7 +657,7 @@ def main(detection_model_path: Path):
         ],
         output_shapes=[
             [1, 1, "H", "W"],
-            ["num_rois", 1, 160, 120],
+            ["num_rois", 1, inshh_out, insww_out],
             ["num_rois", 6],
             [1, 1, "H", "W"],
         ],
@@ -644,6 +673,21 @@ def main(detection_model_path: Path):
         ],
     )
 
+    if os.path.exists("bboxes_processor.onnx"):
+        os.remove("bboxes_processor.onnx")
+    for file_path in glob.glob("preprocess_*.onnx"):
+        os.remove(file_path)
+    for file_path in glob.glob("postprocess_*.onnx"):
+        os.remove(file_path)
+    for file_path in glob.glob("depth_anything_v2_small_*.onnx"):
+        os.remove(file_path)
+    if os.path.exists(object_detection_file_w_prep):
+        os.remove(object_detection_file_w_prep)
+    if os.path.exists(object_detection_file_w_depth):
+        os.remove(object_detection_file_w_depth)
+    if os.path.exists(object_detection_file_w_depth_post):
+        os.remove(object_detection_file_w_depth_post)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -656,6 +700,12 @@ if __name__ == "__main__":
         required=True,
         help="Detection model ONNX file to derive ROI counts from.",
     )
-
+    parser.add_argument(
+        "--instanceseg_model",
+        choices=INSTANCESEG_MODEL_CHOICES,
+        metavar="INSTANCE_SEG_MODEL",
+        required=True,
+        help="Instance Segmentation model ONNX file to derive ROI counts from.",
+    )
     args = parser.parse_args()
-    main(detection_model_path=Path(args.detection_model))
+    main(detection_model_path=Path(args.detection_model), instanceseg_model_path=Path(args.instanceseg_model))
