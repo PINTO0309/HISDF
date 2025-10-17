@@ -7,8 +7,9 @@ Merging DEIMv2 and DepthAnythingV2, RHIS
 
 HISDF (Human Instance, Skeleton, and Depth Fusion) is a unified model that fuses human instance segmentation, skeletal structure estimation, and depth prediction to achieve holistic human perception from visual input.
 
-> [!warning]
-> As of October 6, 2025, I have only performed proof of concept using the architecture with the highest accuracy and slowest inference speed. I plan to gradually add lighter models.
+> [!NOTE]
+> Oct 14, 2025. I have released models for all variants: Nano, Pico, S, X and a composite lightweight model for instance segmentation.
+> https://github.com/PINTO0309/PINTO_model_zoo/tree/main/473_HISDF
 
 ## Demo - X size Monolithic Model
 - RTX3070 8GB
@@ -63,12 +64,16 @@ HISDF (Human Instance, Skeleton, and Depth Fusion) is a unified model that fuses
 
 ## Model Zoo
 
-The repository ships with several ONNX artefacts:　https://github.com/PINTO0309/HISDF/releases
+- Nano, Pico, S, X
 
-- `deimv2_dinov3_x_wholebody34_*.onnx`: core HISDF detectors with varying query counts.
-- `depth_anything_v2_small_*.onnx`: depth backbones at different input resolutions.
-- `postprocess_*` / `preprocess_*`: helper networks for resizing, segmentation, or depth refinement.
-- `bboxes_processor.onnx`: post-processing utilities for bounding-box outputs.
+  https://github.com/PINTO0309/PINTO_model_zoo/tree/main/473_HISDF
+
+- The repository ships with several ONNX artefacts:
+  - https://github.com/PINTO0309/HISDF/releases
+  - `deimv2_dinov3_x_wholebody34_*.onnx`: core HISDF detectors with varying query counts.
+  - `depth_anything_v2_small_*.onnx`: depth backbones at different input resolutions.
+  - `postprocess_*` / `preprocess_*`: helper networks for resizing, segmentation, or depth refinement.
+  - `bboxes_processor.onnx`: post-processing utilities for bounding-box outputs.
 
 Pick the variant that best matches your latency/accuracy trade-offs. The demo defaults to `deimv2_depthanythingv2_instanceseg_1x3xHxW.onnx`.
 
