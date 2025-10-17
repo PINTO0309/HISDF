@@ -43,6 +43,10 @@ HISDF (Human Instance, Skeleton, and Depth Fusion) is a unified model that fuses
 
   https://github.com/user-attachments/assets/e636893c-b51a-4616-9bb5-d0a51a02baf6
 
+## Demo - Pico size Monolithic Model
+
+https://github.com/user-attachments/assets/be2ead62-965a-483e-8752-616cab5fee61
+
 ## Features
 
 - Multitask inference that combines person detection, attribute estimation, skeleton keypoints, and per-pixel depth from a single forward pass.
